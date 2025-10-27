@@ -5,18 +5,37 @@ class TestCalculator:
     def setup_method(self):
         self.calc = Calculator()
 
-    def test_add_positive_numbers(self):
-        assert self.calc.add(2, 3) == 5
-
-    def test_add_negative_numbers(self):
-        assert self.calc.add(-1, -1) == -2
-
-    def test_divide_normal(self):
-        assert self.calc.divide(6, 2) == 3
-
-    def test_divide_by_zero(self):
-        with pytest.raises(ValueError, match="Cannot divide by zero"):
-            self.calc.divide(5, 0)
+    @pytest.mark.parametrize("a, b, expected", [ 
+        (2, 3, 5), 
+        (-1, 1, 0), 
+        (0, 0, 0), 
+        (100, 200, 300), 
+        (-5, -3, -8), 
+        (2.5, 3.1, 5.6), 
+    ]) 
+    def test_add(self, a, b, expected): 
+        assert self.calc.add(a, b) == expected 
+ 
+    @pytest.mark.parametrize("a, b, expected", [ 
+        (10, 2, 5), 
+        (9, 3, 3), 
+        (7, 1, 7), 
+        (0, 5, 0), 
+        (15, 3, 5), 
+        (1, 2, 0.5), 
+    ]) 
+    def test_divide_valid(self, a, b, expected): 
+        assert self.calc.divide(a, b) == expected 
+ 
+    @pytest.mark.parametrize("a, b", [ 
+        (10, 0), 
+        (0, 0), 
+        (-5, 0), 
+        (100, 0), 
+    ]) 
+    def test_divide_by_zero(self, a, b): 
+        with pytest.raises(ValueError, match="Нельзя делить на ноль!"): 
+            self.calc.divide(a, b) 
 
     @pytest.mark.parametrize("number, expected", [
         (2, True),
