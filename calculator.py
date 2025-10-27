@@ -4,7 +4,7 @@ class Calculator:
 
     def divide(self, a, b):
         if b == 0:
-            raise ValueError("Cannot divide by zero")
+            raise ValueError("Нельзя делить на ноль!")
         return a / b
 
     def is_prime_number(self, n):
